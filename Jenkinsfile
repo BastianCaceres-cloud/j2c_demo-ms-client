@@ -4,7 +4,7 @@ pipeline {
         maven 'Maven'
     }
     parameters{
-        booleanParam(name: 'executeTests', defaultValue: true, desription:'')
+        booleanParam(name: 'executeTests', defaultValue: true, description:'')
     }
     
   stages {
