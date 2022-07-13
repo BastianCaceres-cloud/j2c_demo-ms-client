@@ -48,7 +48,7 @@ pipeline {
         //construcción de ejecutable (jar)
       steps{
           echo 'building the applications...'
-          bash "mvn install"
+          bat "mvn install"
       }
     }
     stage ("Package"){
