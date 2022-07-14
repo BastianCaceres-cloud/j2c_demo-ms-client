@@ -43,7 +43,7 @@ pipeline {
        
       steps {
         withSonarQubeEnv('sonar'){
-          def sonarParams=" -Dsonar.projectName=clientms-0.0.1-SNAPSHOT -Dsonar.projectKey=clientms-0.0.1-SNAPSHOT \
+          def sonarParams="-Dsonar.projectName=clientms-0.0.1-SNAPSHOT -Dsonar.projectKey=clientms-0.0.1-SNAPSHOT \
           -Dsonar.projectVersion=clientms-main -Dsonar.analysis.version=0.0.1-SNAPSHOT \
           -Dsonar.sources=src/main -Dsonar.sourceEncoding=UTF-8 -Dsonar.java.binaries=target/classes \
          -Dsonar.test.inclusions=src/test -Dsonar.junit.reportsPath=target/surefire-reports \
