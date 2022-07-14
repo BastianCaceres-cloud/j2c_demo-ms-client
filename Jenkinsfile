@@ -17,7 +17,7 @@ pipeline {
     stage ("Checkjava"){
         //verificar si java está instalado
       steps{
-        echo 'checkjava'
+        bat 'java -version'
       }
     }
     stage ("Clean"){
@@ -35,13 +35,22 @@ pipeline {
         }
             
       steps{
-        echo 'test'
+        bat 'mvn verify'
       }
     }
     stage ("SonarQube"){
-        //verificar calidad de código con SonarQube
-      steps{
-        echo 'sonar'
+        //verificar calidad de código con SonarQube   
+        def sonarParams=" -Dsonar.projectName=\"clientms-0.0.1-SNAPSHOT\" -Dsonar.projectKey=\"clientms-0.0.1-SNAPSHOT\" \
+        -Dsonar.projectVersion=\"clientms-main\" -Dsonar.analysis.version=\"0.0.1-SNAPSHOT\" \
+        -Dsonar.sources=src/main -Dsonar.sourceEncoding=UTF-8 -Dsonar.java.binaries=target/classes \ 
+        -Dsonar.test.inclusions=src/test -Dsonar.junit.reportsPath=target/surefire-reports \
+        -Dsonar.surefire.reportsPath=target/surefire-reports -Dsonar.binaries=target/classes \
+        -Dsonar.java.coveragePlugin=jacoco -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco-ut/jacoco.xml \
+        -Dsonar.analysis.projectName=\"clientms\" \
+        -Dsonar.analysis.branch=\"main\" -Dsonar.qualitygate.wait=true"     
+      steps.withSonarQubeEnv('sonar'){
+        bat "mvn -U -Pprod sonar:sonar ${sonarParams}"
+
       }
     }
     stage ("Build"){
@@ -67,5 +76,6 @@ pipeline {
             //notificación de falla
         }
     }
+  }
 }
     
