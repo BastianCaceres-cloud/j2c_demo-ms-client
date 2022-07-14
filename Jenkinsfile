@@ -48,8 +48,10 @@ pipeline {
         -Dsonar.java.coveragePlugin=jacoco -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco-ut/jacoco.xml \
         -Dsonar.analysis.projectName=clientms \
         -Dsonar.analysis.branch=main -Dsonar.qualitygate.wait=true"     
-      steps.withSonarQubeEnv('sonar'){
-        bat "mvn -U -Pprod sonar:sonar ${sonarParams}"
+      steps {
+        withSonarQubeEnv('sonar'){
+          bat "mvn -U -Pprod sonar:sonar ${sonarParams}"
+        }
 
       }
     }
