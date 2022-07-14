@@ -42,7 +42,7 @@ pipeline {
         //verificar calidad de código con SonarQube   
        
       steps {
-        withSonarQubeEnv('sonar'){
+        script{
           def sonarParams="-Dsonar.projectName=clientms-0.0.1-SNAPSHOT -Dsonar.projectKey=clientms-0.0.1-SNAPSHOT \
           -Dsonar.projectVersion=clientms-main -Dsonar.analysis.version=0.0.1-SNAPSHOT \
           -Dsonar.sources=src/main -Dsonar.sourceEncoding=UTF-8 -Dsonar.java.binaries=target/classes \
@@ -50,11 +50,13 @@ pipeline {
          -Dsonar.surefire.reportsPath=target/surefire-reports -Dsonar.binaries=target/classes \
          -Dsonar.java.coveragePlugin=jacoco -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco-ut/jacoco.xml \
          -Dsonar.analysis.projectName=clientms \
-         -Dsonar.analysis.branch=main -Dsonar.qualitygate.wait=true" 
-          echo "${sonarParams}"
-          bat "mvn -U -Pprod sonar:sonar ${sonarParams}"
+         -Dsonar.analysis.branch=main -Dsonar.qualitygate.wait=true"         
+          withSonarQubeEnv('sonar'){
+          
+            echo "${sonarParams}"
+            bat "mvn -U -Pprod sonar:sonar ${sonarParams}"
+          }
         }
-
       }
     }
     stage ("Build"){
