@@ -54,6 +54,7 @@ pipeline {
 
         }
         withSonarQubeEnv('sonar'){
+          echo "${sonarParams}"
           bat "mvn -U -Pprod sonar:sonar ${sonarParams}"
         }
 
